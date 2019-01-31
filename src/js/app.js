@@ -59,20 +59,29 @@ const jtrello = (function() {
   /* =========== Metoder för att hantera kort i listor nedan =========== */
   function createCard(event) {
     event.preventDefault();
+    console.log("This should create a new card");
+
     let cardInput = $(this).find('input');
     let newCard = cardInput.val();
-    console.log("This should create a new card");
 
     $(this)
       .closest('.add-new')
         .append()
           .before('<li class="card">' + newCard + '<button class="button delete">X</button></li>');
 
-    $(this).find('input').val('');
+    $(this)
+      .parent()
+        .prev()
+          .find('button.delete')
+            .click(deleteCard);
+
+      $(this).find('input').val('');
   }
 
   function deleteCard() {
     console.log("This should delete the card you clicked on");
+    
+    $(this).closest('.card').remove();
   }
 
   // Metod för att rita ut element i DOM:en
