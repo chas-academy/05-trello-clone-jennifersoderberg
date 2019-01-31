@@ -24,32 +24,59 @@ const jtrello = (function() {
     DOM.$lists = $('.list');
     DOM.$cards = $('.card');
     
-    DOM.$newListButton = $('button#new-list');
+    //Skapa lista / radera lista
+    DOM.$createListButton = $('button#add-list'); //Skapar listan med valt namn
     DOM.$deleteListButton = $('.list-header > button.delete');
 
+    //Skapa kort / radera kort
     DOM.$newCardForm = $('form.new-card');
     DOM.$deleteCardButton = $('.card > button.delete');
   }
 
   function createTabs() {}
-  function createDialogs() {}
-
+function createDialogs() {}
   /*
   *  Denna metod kommer nyttja variabeln DOM för att binda eventlyssnare till
   *  createList, deleteList, createCard och deleteCard etc.
   */
   function bindEvents() {
-    DOM.$newListButton.on('click', createList);
-    DOM.$deleteListButton.on('click', deleteList);
 
-    DOM.$newCardForm.on('submit', createCard);
-    DOM.$deleteCardButton.on('click', deleteCard);
+    //Skapa lista / radera lista
+    DOM.$board.on('click', 'button#new-list', createList);
+    DOM.$board.on('click', '.list-header > button.delete', deleteList);
+    //Skapa kort / radera kort
+    DOM.$board.on('submit', 'form.new-card', createCard);
+    DOM.$board.on('click', '.card > button.delete', deleteCard);
   }
 
   /* ============== Metoder för att hantera listor nedan ============== */
   function createList() {
     event.preventDefault();
     console.log("This should create a new list");
+
+    $('.column:last')
+      .before(`
+    <div class="column">
+      <div class="list">
+          <div class="list-header">
+              Doing
+              <button class="button delete">X</button>
+          </div>
+          <ul class="list-cards">
+              <li class="card">
+                  Card #2
+                  <button class="button delete">X</button>
+              </li>
+              <li class="add-new">
+                  <form class="new-card" action="index.html">
+                      <input type="text" name="title" placeholder="Please name the card" />
+                      <button class="button add">Add new card</button>
+                  </form>
+              </li>
+          </ul>
+      </div>
+    </div>`);
+
   }
 
   function deleteList() {
@@ -92,7 +119,7 @@ const jtrello = (function() {
 
   // Init metod som körs först
   function init() {
-    console.log(':::: Initializing JTrello ::::');
+    console.log(':::: Initializing JTrello ÄPPLE ::::');
     // Förslag på privata metoder
     captureDOMEls();
     createTabs();
