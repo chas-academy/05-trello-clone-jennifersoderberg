@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-// require('webpack-jquery-ui');
+require('webpack-jquery-ui');
 import '../css/styles.css';
 
 /**
@@ -59,7 +59,16 @@ const jtrello = (function() {
   /* =========== Metoder för att hantera kort i listor nedan =========== */
   function createCard(event) {
     event.preventDefault();
+    let cardInput = $(this).find('input');
+    let newCard = cardInput.val();
     console.log("This should create a new card");
+
+    $(this)
+      .closest('.add-new')
+        .append()
+          .before('<li class="card">' + newCard + '<button class="button delete">X</button></li>');
+
+    $(this).find('input').val('');
   }
 
   function deleteCard() {
