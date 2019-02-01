@@ -36,32 +36,51 @@ const jtrello = (function ($, sortable) {
 
   function createDialogs() {
     //DIALOG FÖR ADD NEW LIST BUTTON
-    $("#list-creation-dialog").dialog({
-      autoOpen: false,
+    $("#list-creation-dialog").dialog({ autoOpen: false });
+    $("#card-info-dialog").dialog({ autoOpen: false });
+  }
+
+  function toggleListDialog() {
+    $("#list-creation-dialog").dialog("open");
+    $("#list-creation-button").dialog({
+      click: function() {
+        //createList();
+        console.log('YESS!');
+      }
     });
 
-    $("#new-list").click(function () {
-      $("#list-creation-dialog").dialog("open");
-    });
+    // $("#list-creation-dialog").dialog({
+    //   buttons: [
+    //     {
+    //       text: "Create list",
+    //       click: function () {
+    //         createList();
+    //         $("#list-creation-dialog").dialog("close");
+    //       }
+    //     }
+    //   ]
+    // });
+  }
 
-    $("#list-creation-dialog").dialog({
-      buttons: [
-        {
-          text: "Create list",
-          click: function () {
-            createList();
-            $("#list-creation-dialog").dialog("close");
-          }
-        }
-      ]
-    });
+  function toggleCardDialog() {
+    $("#card-info-dialog").dialog("open");
+    // [ det som ska hända här ]
   }
 
   function createSortable() {
     //kortet
-    $('.list-cards').sortable({ connectWith: '.list-cards' });
+    // $('.list-cards').sortable({ connectWith: '.list-cards' });
     //listan
-    $('.board').sortable({ connectWith: '.column' });
+    $('.board').sortable({
+      connectWith: '.column',
+      placeholder: 'sortable-placeholder',
+      axis: 'x',
+      containment: '.board',
+      forceHelperSize: true,
+      forcePlaceholderSize: true,
+      scroll: true,
+      helper: 'clone',
+    });
 
   }
   /*
@@ -70,15 +89,17 @@ const jtrello = (function ($, sortable) {
   */
   function bindEvents() {
     //Skapa lista / radera lista
-    DOM.$board.on('click', 'button#new-list', createDialogs);
+    $("#list-creation-dialog > form").on("submit", createList);
+    DOM.$board.on('click', 'button#new-list', toggleListDialog);
     DOM.$board.on('click', '.list-header > button.delete', deleteList);
     //Skapa kort / radera kort
     DOM.$board.on('submit', 'form.new-card', createCard);
     DOM.$board.on('click', '.card > button.delete', deleteCard);
+    DOM.$board.on('click', '.card', toggleCardDialog);
   }
 
   /* ============== Metoder för att hantera listor nedan ============== */
-  function createList() {
+  function createList(event) {
     event.preventDefault();
 
     $('.column:last')
@@ -136,7 +157,7 @@ const jtrello = (function ($, sortable) {
   }
 
   // Metod för att rita ut element i DOM:en
-  function render() {}
+  function render() { }
 
   /* =================== Publika metoder nedan ================== */
 

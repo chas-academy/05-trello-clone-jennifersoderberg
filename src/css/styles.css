@@ -48,10 +48,7 @@ input {
 
 .column {
   width: 270px;
-  /* margin: 0 5px; */
-  /* height: 100%; */
-  height: auto;
-  margin: 5px;
+  margin: 0 5px;
   box-sizing: border-box;
   display: inline-block;
   vertical-align: top;
@@ -144,7 +141,7 @@ input {
 }
 
 .ui-dialog .ui-dialog-titlebar-close {
-  display: none;
+  /* display: none; */
 }
 
 .ui-dialog input {
@@ -179,15 +176,16 @@ input {
   flex: 0 0 160px;
 }
 
-.ui-sortable-placeholder {
-  display: block;
+.ui-sortable-placeholder.sortable-placeholder {
+  display: inline-block;
   background-color: rgba(0, 0, 0, 0.2);
   border-color: transparent;
   box-shadow: none;
   border-radius: 3px;
 }
 
-.list.ui-sortable-helper {
+.list.ui-sortable-helper,
+.ui-sortable-helper {
   cursor: grabbing;
   box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.3), 0px 0px 1px rgba(0, 0, 0, 0.5);
   transform: rotate(4deg);
