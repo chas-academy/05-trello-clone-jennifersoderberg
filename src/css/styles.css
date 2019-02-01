@@ -48,8 +48,10 @@ input {
 
 .column {
   width: 270px;
-  margin: 0 5px;
-  height: 100%;
+  /* margin: 0 5px; */
+  /* height: 100%; */
+  height: auto;
+  margin: 5px;
   box-sizing: border-box;
   display: inline-block;
   vertical-align: top;

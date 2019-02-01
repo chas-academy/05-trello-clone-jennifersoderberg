@@ -10,7 +10,7 @@ import '../css/styles.css';
 
 // Här tillämpar vi mönstret reavealing module pattern:
 // Mer information om det mönstret här: https://bit.ly/1nt5vXP
-const jtrello = (function() {
+const jtrello = (function($) {
   "use strict"; // https://lucybain.com/blog/2014/js-use-strict/
 
   // Referens internt i modulen för DOM element
@@ -19,13 +19,12 @@ const jtrello = (function() {
   /* =================== Privata metoder nedan ================= */
   function captureDOMEls() {
     DOM.$board = $('.board');
-    DOM.$listDialog = $('#list-creation-dialog');
     DOM.$columns = $('.column');
     DOM.$lists = $('.list');
     DOM.$cards = $('.card');
     
     //Skapa lista / radera lista
-    DOM.$createListButton = $('button#add-list'); //Skapar listan med valt namn
+    DOM.$listDialog = $('button#newlist'); //skapar dialogruta och skapar ny lista
     DOM.$deleteListButton = $('.list-header > button.delete');
 
     //Skapa kort / radera kort
@@ -34,25 +33,50 @@ const jtrello = (function() {
   }
 
   function createTabs() {}
-function createDialogs() {}
+
+  function createDialogs() {
+    console.log('lets create a dialog LLL!');
+    //skapa dialogruta med knapp
+    //knappen inuti dialog ska gå till createList
+    //KLAR! Men lägger sig lite fuckat
+    $( "#list-creation-dialog" ).dialog({
+      autoOpen: false,  
+    });
+
+   $( "#new-list" ).click(function() {
+      $( "#list-creation-dialog" ).dialog( "open" );
+    });
+
+   $( "#list-creation-dialog" ).dialog({
+    buttons: [
+      {
+        text: "Create list",
+        click: function() {
+          createList();
+          $( "#list-creation-dialog" ).dialog( "close" );
+        }
+   
+      }
+    ]  
+  });
+
+  }
   /*
   *  Denna metod kommer nyttja variabeln DOM för att binda eventlyssnare till
   *  createList, deleteList, createCard och deleteCard etc.
   */
   function bindEvents() {
-
     //Skapa lista / radera lista
-    DOM.$board.on('click', 'button#new-list', createList);
+    DOM.$board.on('click', 'button#newlist', createDialogs);
     DOM.$board.on('click', '.list-header > button.delete', deleteList);
     //Skapa kort / radera kort
     DOM.$board.on('submit', 'form.new-card', createCard);
-    DOM.$board.on('click', '.card > button.delete', deleteCard);
+    DOM.$board.on('click', '.card > button.delete', deleteCard);    
   }
 
   /* ============== Metoder för att hantera listor nedan ============== */
   function createList() {
     event.preventDefault();
-    console.log("This should create a new list");
 
     $('.column:last')
       .before(`
@@ -80,14 +104,12 @@ function createDialogs() {}
   }
 
   function deleteList() {
-    console.log("This should delete the list you clicked on");
     $(this).closest('.list').remove();
   }
 
   /* =========== Metoder för att hantera kort i listor nedan =========== */
   function createCard(event) {
     event.preventDefault();
-    console.log("This should create a new card");
 
     let cardInput = $(this).find('input');
     let newCard = cardInput.val();
@@ -95,7 +117,7 @@ function createDialogs() {}
     $(this)
       .closest('.add-new')
         .append()
-          .before('<li class="card">' + newCard + '<button class="button delete">X</button></li>');
+          .before(`<li class="card"> ${newCard} <button class="button delete">X</button></li>`);
 
     $(this)
       .parent()
@@ -106,9 +128,7 @@ function createDialogs() {}
       $(this).find('input').val('');
   }
 
-  function deleteCard() {
-    console.log("This should delete the card you clicked on");
-    
+  function deleteCard() {    
     $(this).closest('.card').remove();
   }
 
@@ -119,20 +139,20 @@ function createDialogs() {}
 
   // Init metod som körs först
   function init() {
-    console.log(':::: Initializing JTrello ÄPPLE ::::');
+    console.log(':::: Initializing JTrello ::::');
     // Förslag på privata metoder
     captureDOMEls();
     createTabs();
     createDialogs();
 
-    bindEvents();
+    bindEvents(); 
   }
 
   // All kod här
   return {
     init: init
   };
-})();
+})($);
 
 //usage
 $("document").ready(function() {
