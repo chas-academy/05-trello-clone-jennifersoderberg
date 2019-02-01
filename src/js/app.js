@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import sortable from 'jquery-ui/ui/widgets/sortable';
 
 require('webpack-jquery-ui');
 import '../css/styles.css';
@@ -10,7 +11,7 @@ import '../css/styles.css';
 
 // Här tillämpar vi mönstret reavealing module pattern:
 // Mer information om det mönstret här: https://bit.ly/1nt5vXP
-const jtrello = (function($) {
+const jtrello = (function ($, sortable) {
   "use strict"; // https://lucybain.com/blog/2014/js-use-strict/
 
   // Referens internt i modulen för DOM element
@@ -22,43 +23,45 @@ const jtrello = (function($) {
     DOM.$columns = $('.column');
     DOM.$lists = $('.list');
     DOM.$cards = $('.card');
-    
-    //Skapa lista / radera lista
-    DOM.$listDialog = $('button#newlist'); //skapar dialogruta och skapar ny lista
-    DOM.$deleteListButton = $('.list-header > button.delete');
 
+    //Skapa lista / radera lista
+    DOM.$listDialog = $('button#new-list'); //skapar dialogruta och skapar ny lista
+    DOM.$deleteListButton = $('.list-header > button.delete');
     //Skapa kort / radera kort
     DOM.$newCardForm = $('form.new-card');
     DOM.$deleteCardButton = $('.card > button.delete');
   }
 
-  function createTabs() {}
+  function createTabs() { }
 
   function createDialogs() {
-    console.log('lets create a dialog LLL!');
-    //skapa dialogruta med knapp
-    //knappen inuti dialog ska gå till createList
-    //KLAR! Men lägger sig lite fuckat
-    $( "#list-creation-dialog" ).dialog({
-      autoOpen: false,  
+    //DIALOG FÖR ADD NEW LIST BUTTON
+    $("#list-creation-dialog").dialog({
+      autoOpen: false,
     });
 
-   $( "#new-list" ).click(function() {
-      $( "#list-creation-dialog" ).dialog( "open" );
+    $("#new-list").click(function () {
+      $("#list-creation-dialog").dialog("open");
     });
 
-   $( "#list-creation-dialog" ).dialog({
-    buttons: [
-      {
-        text: "Create list",
-        click: function() {
-          createList();
-          $( "#list-creation-dialog" ).dialog( "close" );
+    $("#list-creation-dialog").dialog({
+      buttons: [
+        {
+          text: "Create list",
+          click: function () {
+            createList();
+            $("#list-creation-dialog").dialog("close");
+          }
         }
-   
-      }
-    ]  
-  });
+      ]
+    });
+  }
+
+  function createSortable() {
+    //kortet
+    $('.list-cards').sortable({ connectWith: '.list-cards' });
+    //listan
+    $('.board').sortable({ connectWith: '.column' });
 
   }
   /*
@@ -67,11 +70,11 @@ const jtrello = (function($) {
   */
   function bindEvents() {
     //Skapa lista / radera lista
-    DOM.$board.on('click', 'button#newlist', createDialogs);
+    DOM.$board.on('click', 'button#new-list', createDialogs);
     DOM.$board.on('click', '.list-header > button.delete', deleteList);
     //Skapa kort / radera kort
     DOM.$board.on('submit', 'form.new-card', createCard);
-    DOM.$board.on('click', '.card > button.delete', deleteCard);    
+    DOM.$board.on('click', '.card > button.delete', deleteCard);
   }
 
   /* ============== Metoder för att hantera listor nedan ============== */
@@ -116,19 +119,19 @@ const jtrello = (function($) {
 
     $(this)
       .closest('.add-new')
-        .append()
-          .before(`<li class="card"> ${newCard} <button class="button delete">X</button></li>`);
+      .append()
+      .before(`<li class="card"> ${newCard} <button class="button delete">X</button></li>`);
 
     $(this)
       .parent()
-        .prev()
-          .find('button.delete')
-            .click(deleteCard);
+      .prev()
+      .find('button.delete')
+      .click(deleteCard);
 
-      $(this).find('input').val('');
+    $(this).find('input').val('');
   }
 
-  function deleteCard() {    
+  function deleteCard() {
     $(this).closest('.card').remove();
   }
 
@@ -144,17 +147,18 @@ const jtrello = (function($) {
     captureDOMEls();
     createTabs();
     createDialogs();
+    createSortable();
 
-    bindEvents(); 
+    bindEvents();
   }
 
   // All kod här
   return {
     init: init
   };
-})($);
+})($, sortable);
 
 //usage
-$("document").ready(function() {
+$("document").ready(function () {
   jtrello.init();
 });
