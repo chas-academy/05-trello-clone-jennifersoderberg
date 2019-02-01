@@ -42,24 +42,6 @@ const jtrello = (function ($, sortable) {
 
   function toggleListDialog() {
     $("#list-creation-dialog").dialog("open");
-    $("#list-creation-button").dialog({
-      click: function() {
-        //createList();
-        console.log('YESS!');
-      }
-    });
-
-    // $("#list-creation-dialog").dialog({
-    //   buttons: [
-    //     {
-    //       text: "Create list",
-    //       click: function () {
-    //         createList();
-    //         $("#list-creation-dialog").dialog("close");
-    //       }
-    //     }
-    //   ]
-    // });
   }
 
   function toggleCardDialog() {
@@ -101,6 +83,7 @@ const jtrello = (function ($, sortable) {
   /* ============== Metoder för att hantera listor nedan ============== */
   function createList(event) {
     event.preventDefault();
+    $("#list-creation-dialog").dialog("close");
 
     $('.column:last')
       .before(`
