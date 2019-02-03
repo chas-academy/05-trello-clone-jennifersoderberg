@@ -57,11 +57,14 @@ const jtrello = (function ($, sortable) {
   }
 
   function toggleListDialog() {
-    $("#list-creation-dialog").dialog("open");
+    $("#list-creation-dialog").dialog("open")
+      .effect("highlight", {}, 1000);
   }
 
   function toggleCardDialog() {
-    $("#card-info-dialog").dialog("open");
+    $("#card-info-dialog").dialog("open")
+      .effect("highlight", {}, 1000);
+
   }
 
   //SORTABLE FUNCTION
