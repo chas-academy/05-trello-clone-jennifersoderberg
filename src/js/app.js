@@ -85,8 +85,9 @@ const jtrello = (function ($, sortable) {
 
   }
 
+
   //WIDGET
-  $("#peachy").click(function(){
+  $("#invert").click(function(){
     $('.board').colorInverter();
   });
 
@@ -117,7 +118,21 @@ const jtrello = (function ($, sortable) {
           .addClass(options.className).parents()
           .css({
             "background-color" : "black",
-          })
+          });
+
+          $(el)
+          .addClass(options.className).find(".list, button")
+          .css({
+            "background-color" : "white",
+            "color" : "black"
+          });
+
+          $(el)
+          .addClass(options.className).find(".card, input")
+          .css({
+            "background-color" : "black",
+            "color" : "white",
+          });
       }
     };
   
@@ -131,7 +146,7 @@ const jtrello = (function ($, sortable) {
   
   })(jQuery, window, document);
 
-
+  
   /*
   *  Denna metod kommer nyttja variabeln DOM för att binda eventlyssnare till
   *  createList, deleteList, createCard och deleteCard etc.
