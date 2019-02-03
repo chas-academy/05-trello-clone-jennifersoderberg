@@ -62,7 +62,6 @@ const jtrello = (function ($, sortable) {
 
   function toggleCardDialog() {
     $("#card-info-dialog").dialog("open");
-    // [ det som ska hända här ]
   }
 
   //SORTABLE FUNCTION
@@ -100,7 +99,7 @@ const jtrello = (function ($, sortable) {
   /* ============== Metoder för att hantera listor nedan ============== */
   function createList(event) {
     event.preventDefault();
-    $("#list-creation-dialog").dialog("close");
+    $(".ui-dialog").fadeOut('slow');
 
     $('.column:last')
       .before(`
