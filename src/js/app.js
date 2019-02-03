@@ -70,7 +70,7 @@ const jtrello = (function ($, sortable) {
   //SORTABLE FUNCTION
   function createSortable() {
     //kortet
-    // $('.list-cards').sortable({ connectWith: '.list-cards' });
+    $('.list-cards').sortable({ connectWith: '.list-cards' });
     //listan
     $('.board').sortable({
       connectWith: '.column',
@@ -84,6 +84,54 @@ const jtrello = (function ($, sortable) {
     });
 
   }
+
+  //WIDGET
+  $("#peachy").click(function(){
+    $('.board').colorInverter();
+  });
+
+  ;(function($, window, document, undefined) {
+
+    var pluginName = "colorInverter",
+    defaults = {
+      className: 'invert'  
+    };
+  
+    function Plugin(element, options) {
+      this.element = element;
+  
+      this.options = $.extend({}, defaults, options);
+  
+      this._default = defaults;
+      this._name = pluginName;
+  
+      this.init(); 
+    }
+  
+    Plugin.prototype = {
+      init: function() {
+        this.invertFunction(this.element, this.options);
+      },
+      invertFunction: function(el, options) {
+        $(el)
+          .addClass(options.className).parents()
+          .css({
+            "background-color" : "black",
+          })
+      }
+    };
+  
+    $.fn[pluginName] = function(options) {
+      return this.each(function() {
+        if (!$.data(this, "plugin_" + pluginName)) {
+          $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+        }
+      })
+    };
+  
+  })(jQuery, window, document);
+
+
   /*
   *  Denna metod kommer nyttja variabeln DOM för att binda eventlyssnare till
   *  createList, deleteList, createCard och deleteCard etc.
