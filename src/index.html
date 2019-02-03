@@ -76,12 +76,26 @@
     <div id="list-creation-dialog" title="Create new list" style="height: 40px">
         <form> 
             <input type="text" name="title" placeholder="List title" />
-            <button>Button!</button>
+            <button id="list-creation-button">Button!</button>
         </form>
     </div>
 
     <div id="card-info-dialog" title="Card info" style="height: 40px">
-        <p></p>
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Todo list</a></li>
+                <li><a href="#tabs-2">Deadline</a></li>
+            </ul>
+            <div id="tabs-1">
+                <form action="">
+                    <input type="text" placeholder="Todo">
+                    <button type="submit">Add todo</button>
+                </form>
+            </div>
+            <div id="tabs-2">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea blanditiis animi incidunt autem cum laborum magni laboriosam quibusdam aut, in exercitationem impedit magnam. Reiciendis aperiam similique cumque quia maiores eum!</p>
+            </div>
+        </div>
     </div>
 
 </body>

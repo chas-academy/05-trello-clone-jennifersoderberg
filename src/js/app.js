@@ -32,8 +32,14 @@ const jtrello = (function ($, sortable) {
     DOM.$deleteCardButton = $('.card > button.delete');
   }
 
-  function createTabs() { }
+  //TABS FUNCTION
+  function createTabs() {
+    $( function() {
+      $( "#tabs" ).tabs();
+    } );
+  }
 
+  //DIALOG FUNCTIONS
   function createDialogs() {
     //DIALOG FÖR ADD NEW LIST BUTTON
     $("#list-creation-dialog").dialog({ autoOpen: false });
@@ -49,6 +55,7 @@ const jtrello = (function ($, sortable) {
     // [ det som ska hända här ]
   }
 
+  //SORTABLE FUNCTION
   function createSortable() {
     //kortet
     // $('.list-cards').sortable({ connectWith: '.list-cards' });
@@ -152,6 +159,7 @@ const jtrello = (function ($, sortable) {
     createTabs();
     createDialogs();
     createSortable();
+    createTabs();
 
     bindEvents();
   }
