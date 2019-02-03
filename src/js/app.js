@@ -39,6 +39,16 @@ const jtrello = (function ($, sortable) {
     } );
   }
 
+  //DATEPICKER FUNCTION
+  function datePicker() {
+    $( function() {
+      $( "#datepicker" ).datepicker({
+        showWeek: true,
+        firstDay: 1
+      });
+    } );
+  }
+
   //DIALOG FUNCTIONS
   function createDialogs() {
     //DIALOG FÖR ADD NEW LIST BUTTON
@@ -160,6 +170,7 @@ const jtrello = (function ($, sortable) {
     createDialogs();
     createSortable();
     createTabs();
+    datePicker();
 
     bindEvents();
   }
