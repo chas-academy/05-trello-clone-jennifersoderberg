@@ -1,4 +1,4 @@
-# http://jennifersoderberg.chas.academy/
+# http://trello.jennifersoderberg.chas.academy/
 
 
 # Trello clone with jQuery, jQuery UI & Bootstrap
